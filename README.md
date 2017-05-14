@@ -1,4 +1,4 @@
-Ulbora Customer Service 
+Ulbora Product Service 
 ==============
 
-A Customer Micro Service
+A Product Micro Service

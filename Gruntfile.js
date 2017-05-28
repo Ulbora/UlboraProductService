@@ -53,11 +53,11 @@ module.exports = function (grunt) {
                 //src: ['tests/webControllers/tokenControllerTest.js']
                 //src: ['tests/database/dbAddressTest.js']
                 //src: ['tests/database/mysql/dbAddressTest.js']
-                //src: ['tests/database/mysql/processors/addressProcessorTest.js']
+                src: ['tests/database/mysql/processors/optionsProcessorTest.js']
                 //src: ['tests/managers/mailManagerTest.js']
                // src: ['tests/managers/customerManagerTest.js']
                 //src: ['tests/delegates/credentialsGrantDelegateTest.js']
-                src: ['tests/services/addressServiceTest.js']
+                //src: ['tests/services/addressServiceTest.js']
                 //src: ['tests/oauth2/oauth2Test.js']
                 //src: ['tests/proxies/tokenValidationProxyTest.js']
             }

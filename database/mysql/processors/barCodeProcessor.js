@@ -20,26 +20,21 @@
  */
 
 //client operations---------------------------------------
-var addressQueries = require("../queries/addressQueries");
+var barCodeQueries = require("../queries/barCodeQueries");
 var crud;
 exports.init = function (c) {
     crud = c;
 };
-exports.addAddress = function (con, json, callback) {
+exports.addBarCode = function (con, json, callback) {
     var args = {
-        address1: json.address1,
-        address2: json.address2,
-        city: json.city,
-        state: json.state,
-        zip: json.zip,
-        zip_ext: json.zipExt,
-        country: json.country,
-        customer_email_address: json.emailAddress,
-        customer_client_id: json.clientId
+        type: json.type,
+        code: json.code,
+        product_details_id: json.productDetailsId,
+        client_id: json.clientId
     };
-    console.log("add address in processor: " + JSON.stringify(json));
-    crud.insert(con, addressQueries.ADDRESS_INSERT_QUERY, args, function (result) {
-        console.log("address add: " + JSON.stringify(result));
+    console.log("add bar code in processor: " + JSON.stringify(json));
+    crud.insert(con, barCodeQueries.BAR_CODE_INSERT_QUERY, args, function (result) {
+        console.log("bar code add: " + JSON.stringify(result));
         var rtn = {
             id: result.id,
             success: result.success,
@@ -50,18 +45,14 @@ exports.addAddress = function (con, json, callback) {
 };
 
 
-exports.updateAddress = function (con, json, callback) {
+exports.updateBarCode = function (con, json, callback) {
     var args = [
-        json.address1,
-        json.address2,
-        json.city,
-        json.state,
-        json.zip,
-        json.zipExt,
-        json.country,
-        json.id
+        json.type,
+        json.code,
+        json.id,
+        json.clientId
     ];
-    crud.update(con, addressQueries.ADDRESS_UPDATE_QUERY, args, function (result) {
+    crud.update(con, barCodeQueries.BAR_CODE_UPDATE_QUERY, args, function (result) {
         var rtn = {
             id: result.id,
             success: result.success,
@@ -72,21 +63,16 @@ exports.updateAddress = function (con, json, callback) {
 };
 
 
-exports.getAddress = function (id, callback) {
-    var queryId = [id];
-    crud.get(addressQueries.ADDRESS_GET_BY_ID_QUERY, queryId, function (result) {
+exports.getBarCode = function (id, clientId, callback) {
+    var queryId = [id, clientId];
+    crud.get(barCodeQueries.BAR_CODE_GET_BY_ID_QUERY, queryId, function (result) {
         if (result.success && result.data.length > 0) {
             var rtn = {
                 id: result.data[0].id,
-                address1: result.data[0].address1,
-                address2: result.data[0].address2,
-                city: result.data[0].city,
-                state: result.data[0].state,
-                zip: result.data[0].zip,
-                zipExt: result.data[0].zip_ext,
-                country: result.data[0].country,
-                emailAddress: result.data[0].customer_email_address,
-                clientId: result.data[0].customer_client_id
+                type: result.data[0].type,
+                code: result.data[0].code,
+                productDetailsId: result.data[0].product_details_id,
+                clientId: result.data[0].client_id
             };
             callback(rtn);
         } else {
@@ -95,23 +81,22 @@ exports.getAddress = function (id, callback) {
     });
 };
 
-exports.getAddressListByCustomer = function (email, clientId, callback) {
-    var queryId = [email, clientId];
-    crud.get(addressQueries.ADDRESS_LIST_BY_CUSTOMER_QUERY, queryId, function (result) {
-        if (result.success && result.data.length > 0) {
-            var rtnList = [];
+
+exports.getBarCodeListByDetails = function (json, callback) {
+    var queryId = [
+        json.productDetailsId,
+        json.clientId
+    ];
+    crud.get(barCodeQueries.BAR_CODE_LIST_BY_DETAILS_QUERY, queryId, function (result) {
+        var rtnList = [];
+        if (result.success && result.data.length > 0) {            
             for (var cnt = 0; cnt < result.data.length; cnt++) {
                 var rtn = {
-                    id: result.data[0].id,
-                    address1: result.data[0].address1,
-                    address2: result.data[0].address2,
-                    city: result.data[0].city,
-                    state: result.data[0].state,
-                    zip: result.data[0].zip,
-                    zipExt: result.data[0].zip_ext,
-                    country: result.data[0].country,
-                    emailAddress: result.data[0].customer_email_address,
-                    clientId: result.data[0].customer_client_id
+                    id: result.data[cnt].id,
+                    type: result.data[cnt].type,
+                    code: result.data[cnt].code,
+                    productDetailsId: result.data[cnt].product_details_id,
+                    clientId: result.data[cnt].client_id
                 };
                 rtnList.push(rtn);
             }
@@ -122,13 +107,34 @@ exports.getAddressListByCustomer = function (email, clientId, callback) {
     });
 };
 
-exports.deleteAddress = function (con, id, callback) {
-    var queryId = [id];
-    crud.delete(con, addressQueries.ADDRESS_DELETE_QUERY, queryId, callback);
+/*
+exports.searchByOptionName = function (json, callback) {
+    var queryId = [
+        json.productDetailsId,
+        json.clientId,
+        json.optionName
+    ];
+    crud.get(optionsQueries.OPTIONS_LIST_SEARCH_BY_OPTION_QUERY, queryId, function (result) {
+        var rtn;
+        if (result.success && result.data.length > 0) {            
+            rtn = {
+                id: result.data[0].id,
+                optionName: result.data[0].option_name,
+                optionValue: result.data[0].option_value,
+                productDetailsId: result.data[0].product_details_id,
+                clientId: result.data[0].client_id
+            };            
+            callback(rtn);
+        } else {
+            callback(rtn);
+        }
+    });
 };
 
+*/
 
-exports.deleteAddressByCustomer = function (con, email, clientId, callback) {
-    var queryId = [email, clientId];
-    crud.delete(con, addressQueries.ADDRESS_DELETE_BY_CUSTOMER_QUERY, queryId, callback);
+exports.deleteBarCode = function (con, id, clientId, callback) {
+    var queryId = [id, clientId];
+    crud.delete(con, barCodeQueries.BAR_CODE_DELETE_QUERY, queryId, callback);
 };
+

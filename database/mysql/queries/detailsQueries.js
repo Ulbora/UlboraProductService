@@ -28,3 +28,18 @@ exports.PRODUCT_DETAIL_DELETE_QUERY = "DELETE FROM product_details WHERE id = ? 
 exports.PRODUCT_DETAIL_LIST_BY_PRODUCT_QUERY = "SELECT * FROM product_details " +
                                                "WHERE product_id = ? " + 
                                                "and client_id = ? ";
+                                       
+exports.PRODUCT_DETAIL_GET_BY_BAR_CODE = "select d.id as product_details_id, d.product_id, d.sku " +
+                                         "from product p " +
+                                         "inner join product_details d " +
+                                         "on p.id = d.product_id " +
+                                         "left join bar_code c " +
+                                         "on d.id = c.product_details_id " +
+                                         "where p.client_id = ? and c.type = ? and c.code = ? ";      
+                                 
+exports.PRODUCT_DETAIL_GET_BY_SKU = "select d.id as product_details_id, p.product_name, p.brand, p.model, " +
+                                    "p.description, d.product_id, d.sku, d.price, d.client_id " +
+                                    "from product p " +
+                                    "inner join product_details d " +
+                                    "on p.id = d.product_id " +                                    
+                                    "where p.client_id = ? and d.sku like ? ";                                       

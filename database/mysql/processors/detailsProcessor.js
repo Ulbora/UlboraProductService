@@ -81,6 +81,60 @@ exports.getDetail = function (id, clientId, callback) {
     });
 };
 
+exports.getDetailByBarCode = function (json, callback) {
+    var queryId = [
+        json.clientId,
+        json.barCodeType,
+        json.barCode
+    ];
+    crud.get(detailsQueries.PRODUCT_DETAIL_GET_BY_BAR_CODE, queryId, function (result) {
+        console.log("Details by barcode: " + JSON.stringify(result));
+        if (result.success && result.data.length > 0) {
+            var rtn = {
+                productDetailsId: result.data[0].product_details_id,
+                sku: result.data[0].sku,
+                productId: result.data[0].product_id,
+                clientId: json.clientId
+            };
+            callback(rtn);
+        } else {
+            callback(null);
+        }
+    });
+};
+
+
+exports.getDetailBySku = function (json, callback) {
+    var queryId = [
+        json.clientId,
+        json.sku
+    ];
+    crud.get(detailsQueries.PRODUCT_DETAIL_GET_BY_SKU, queryId, function (result) {
+        console.log("Details by sku: " + JSON.stringify(result));
+        if (result.success && result.data.length > 0) {
+            var rtnList = [];
+            for (var cnt = 0; cnt < result.data.length; cnt++) {
+                var rtn = {
+                    productDetailsId: result.data[cnt].product_details_id,
+                    productName: result.data[cnt].product_name,
+                    brand: result.data[cnt].brand,
+                    model: result.data[cnt].model,
+                    description: result.data[cnt].description,
+                    sku: result.data[cnt].sku,
+                    price: result.data[cnt].price,
+                    productId: result.data[cnt].product_id,
+                    clientId: result.data[cnt].clientId
+                };
+                rtnList.push(rtn);
+            }
+            callback(rtnList);
+        }  else {
+            callback(rtnList);
+        }
+    });
+};
+
+
 exports.getDetailListByProduct = function (json, callback) {
     var queryId = [
         json.productId,

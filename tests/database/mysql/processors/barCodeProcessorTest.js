@@ -3,10 +3,13 @@ var crud = require("../../../../database/mysql/crud/mysqlCrud");
 var productProcessor = require("../../../../database/mysql/processors/productProcessor");
 var detailsProcessor = require("../../../../database/mysql/processors/detailsProcessor");
 var barCodeProcessor = require("../../../../database/mysql/processors/barCodeProcessor");
+var optionsProcessor = require("../../../../database/mysql/processors/optionsProcessor");
 var prodId;
 var clientId = 3846;
 var detailId;
+var detailId1;
 var barCodeId;
+var barCodeId2;
 describe('BarCodeProcessor', function () {
     this.timeout(6000);
     describe('#connect()', function () {
@@ -17,6 +20,7 @@ describe('BarCodeProcessor', function () {
                     productProcessor.init(crud);
                     detailsProcessor.init(crud);
                     barCodeProcessor.init(crud);
+                    optionsProcessor.init(crud);
                     assert(true);
                 } else {
                     assert(false);
@@ -76,6 +80,78 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
+    
+    
+    describe('#addOptions()', function () {
+        it('should add a options in Processor', function (done) {
+            var json = {
+                optionName: "color",
+                optionValue: "blue",
+                productDetailsId: detailId,
+                clientId: clientId
+            };
+            setTimeout(function () {
+                optionsProcessor.addOption(null, json, function (result) {
+                    console.log("options: " + JSON.stringify(result));
+                    if (result.success) {
+                        optionId = result.id;
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+                    done();
+                });
+            }, 1000);
+        });
+    });
+
+
+    
+    describe('#addDetail()', function () {
+        it('should add a Detail in Processor', function (done) {
+            var json = {
+                sku: "001002124578",
+                price: 10.56,
+                productId: prodId,
+                clientId: clientId
+            };
+            setTimeout(function () {
+                detailsProcessor.addDetail(null, json, function (result) {
+                    if (result.success) {
+                        detailId2 = result.id;
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+                    done();
+                });
+            }, 1000);
+        });
+    });
+    
+    
+    describe('#addOptions()', function () {
+        it('should add a options in Processor', function (done) {
+            var json = {
+                optionName: "color",
+                optionValue: "red",
+                productDetailsId: detailId2,
+                clientId: clientId
+            };
+            setTimeout(function () {
+                optionsProcessor.addOption(null, json, function (result) {
+                    console.log("options: " + JSON.stringify(result));
+                    if (result.success) {
+                        optionId = result.id;
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+                    done();
+                });
+            }, 1000);
+        });
+    });
 
 
     describe('#addBarCode()', function () {
@@ -113,6 +189,30 @@ describe('BarCodeProcessor', function () {
             setTimeout(function () {
                 barCodeProcessor.updateBarCode(null, json, function (result) {
                     if (result.success) {
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+                    done();
+                });
+            }, 1000);
+        });
+    });
+    
+    
+    describe('#addBarCode()', function () {
+        it('should add a bar code in Processor', function (done) {
+            var json = {
+                type: "upc",
+                code: "15555fff555888",
+                productDetailsId: detailId2,
+                clientId: clientId
+            };
+            setTimeout(function () {
+                barCodeProcessor.addBarCode(null, json, function (result) {
+                    console.log("bar code: " + JSON.stringify(result));
+                    if (result.success) {
+                        barCodeId2 = result.id;
                         assert(true);
                     } else {
                         assert(false);
@@ -190,19 +290,46 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
-/*
 
-    describe('#searchByOptionName()', function () {
-        it('should search options list by option in processor', function (done) {
+
+    describe('#getDetailByBarCode()', function () {
+        it('should get details by bar code in processor', function (done) {
             setTimeout(function () {
-                var json = {
-                    productDetailsId: detailId,
+                var json = {                    
                     clientId: clientId,
-                    optionName: "%color%"
+                    barCodeType: "upc",
+                    barCode: "455555fgh555"
                 };
-                optionsProcessor.searchByOptionName(json, function (result) {
-                    console.log("product options search list: " + JSON.stringify(result));
-                    if (result.optionName && result.optionName === "color" && result.optionValue === "green") {
+                detailsProcessor.getDetailByBarCode(json, function (result) {
+                    console.log("product details id : " + detailId);
+                    console.log("product id: " + prodId);
+                    console.log("product details by bar code: " + JSON.stringify(result));
+                    if (result.productDetailsId && result.productDetailsId === detailId && result.productId === prodId && result.sku === "00100212457") {
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+
+                    done();
+                });
+            }, 1000);
+        });
+    });
+    
+    
+    
+    describe('#getDetailBySku()', function () {
+        it('should get details by sku in processor', function (done) {
+            setTimeout(function () {
+                var json = {                    
+                    clientId: clientId,
+                    sku: "001002%"
+                };
+                detailsProcessor.getDetailBySku(json, function (result) {
+                    console.log("product details id : " + detailId);
+                    console.log("product id: " + prodId);
+                    console.log("product details by sku " + JSON.stringify(result));
+                    if (result.length > 0 && result[0].productDetailsId && result[0].productDetailsId === detailId && result[0].productId === prodId && result[0].sku === "00100212457") {
                         assert(true);
                     } else {
                         assert(false);
@@ -214,7 +341,7 @@ describe('BarCodeProcessor', function () {
         });
     });
 
-*/
+
 
     describe('#deleteBarCode()', function () {
         it('should delete bar coe in processor', function (done) {
@@ -245,5 +372,7 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
+    
+    
 });
 

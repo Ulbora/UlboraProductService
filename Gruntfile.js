@@ -52,8 +52,8 @@ module.exports = function (grunt) {
                 },
                 //src: ['tests/webControllers/tokenControllerTest.js']
                 //src: ['tests/database/dbAddressTest.js']
-                //src: ['tests/database/mysql/dbAddressTest.js']
-                src: ['tests/database/mysql/processors/barCodeProcessorTest.js']
+                src: ['tests/database/mysql/dbBarCodeTest.js']
+               // src: ['tests/database/mysql/processors/barCodeProcessorTest.js']
                 //src: ['tests/managers/mailManagerTest.js']
                // src: ['tests/managers/customerManagerTest.js']
                 //src: ['tests/delegates/credentialsGrantDelegateTest.js']

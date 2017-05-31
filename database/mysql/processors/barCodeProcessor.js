@@ -107,31 +107,6 @@ exports.getBarCodeListByDetails = function (json, callback) {
     });
 };
 
-/*
-exports.searchByOptionName = function (json, callback) {
-    var queryId = [
-        json.productDetailsId,
-        json.clientId,
-        json.optionName
-    ];
-    crud.get(optionsQueries.OPTIONS_LIST_SEARCH_BY_OPTION_QUERY, queryId, function (result) {
-        var rtn;
-        if (result.success && result.data.length > 0) {            
-            rtn = {
-                id: result.data[0].id,
-                optionName: result.data[0].option_name,
-                optionValue: result.data[0].option_value,
-                productDetailsId: result.data[0].product_details_id,
-                clientId: result.data[0].client_id
-            };            
-            callback(rtn);
-        } else {
-            callback(rtn);
-        }
-    });
-};
-
-*/
 
 exports.deleteBarCode = function (con, id, clientId, callback) {
     var queryId = [id, clientId];

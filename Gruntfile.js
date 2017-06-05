@@ -51,8 +51,8 @@ module.exports = function (grunt) {
                     clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false) 
                 },
                 //src: ['tests/webControllers/tokenControllerTest.js']
-                //src: ['tests/database/dbAddressTest.js']
-                src: ['tests/database/mysql/dbBarCodeTest.js']
+                src: ['tests/database/dbDetailsTest.js']
+                //src: ['tests/database/mysql/dbProductTest.js']
                // src: ['tests/database/mysql/processors/barCodeProcessorTest.js']
                 //src: ['tests/managers/mailManagerTest.js']
                // src: ['tests/managers/customerManagerTest.js']

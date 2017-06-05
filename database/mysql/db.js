@@ -70,3 +70,64 @@ exports.getDetailByBarCode = function (json, callback) {
 exports.getDetailBySku = function (json, callback) {
     detailsProcessor.getDetailBySku(json, callback);
 };
+
+exports.addDetail = function (json, callback) {
+    detailsProcessor.addDetail(null, json, callback);
+};
+
+exports.updateDetail = function (json, callback) {
+    detailsProcessor.updateDetail(null, json, callback);
+};
+
+exports.getDetail = function (id, clientId, callback) {
+    detailsProcessor.getDetail(id, clientId, callback);
+};
+
+exports.getDetailListByProduct = function (json, callback) {
+    detailsProcessor.getDetailListByProduct(json, callback);
+};
+
+exports.deleteDetail = function (id, clientId, callback) {
+    detailsProcessor.deleteDetail(null, id, clientId, callback);
+};
+
+exports.addOption = function (json, callback) {
+    optionsProcessor.addOption(null, json, callback);
+};
+
+exports.updateOption = function (json, callback) {
+    optionsProcessor.updateOption(null, json, callback);
+};
+
+exports.getOption = function (id, clientId, callback) {
+    optionsProcessor.getOption(id, clientId, callback);
+};
+
+exports.getOptionListByDetails = function (json, callback) {
+    optionsProcessor.getOptionListByDetails(json, callback);
+};
+
+exports.searchByOptionName = function (json, callback) {
+    optionsProcessor.searchByOptionName(json, callback);
+};
+
+exports.deleteOption = function (id, clientId, callback) {
+    optionsProcessor.deleteOption(null, id, clientId, callback);
+};
+
+exports.addProduct = function (json, callback) {
+    productProcessor.addProduct(null, json, callback);
+};
+
+exports.updateProduct = function (json, callback) {
+    productProcessor.updateProduct(null, json, callback);
+};
+
+exports.getProduct = function (id, clientId, callback) {
+    productProcessor.getProduct(id, clientId, callback);
+};
+
+exports.deleteProduct = function (id, clientId, callback) {
+    productProcessor.deleteProduct(null, id, clientId, callback);
+};
+

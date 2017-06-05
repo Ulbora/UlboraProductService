@@ -1,17 +1,20 @@
 var assert = require('assert');
-var crud = require("../../../../database/mysql/crud/mysqlCrud");
-var productProcessor = require("../../../../database/mysql/processors/productProcessor");
-
+var db = require("../../../database/mysql/db");
+//var crud = require("../../../database/mysql/crud/mysqlCrud");
 var prodId;
-var clientId = 3842;
-describe('ProductProcessor', function () {
-    this.timeout(6000);
+var detailId;
+var detailId2;
+var optionId;
+var optionId2;
+var clientId = "5584556112";
+
+describe('mysql DB products', function () {
+    this.timeout(20000);
     describe('#connect()', function () {
         it('should connect to db and create pool', function (done) {
-            crud.connect("localhost", "admin", "admin", "ulbora_product_service", 5);
-            crud.testConnection(function (success) {
-                if (success) {
-                    productProcessor.init(crud);
+            db.connect("localhost", "admin", "admin", "ulbora_product_service", 5);
+            db.testConnection(function (success) {
+                if (success) {                   
                     assert(true);
                 } else {
                     assert(false);
@@ -23,20 +26,20 @@ describe('ProductProcessor', function () {
 
 
     describe('#addProduct()', function () {
-        it('should add a Product in ProductProcessor', function (done) {
+        it('should add a Product in db', function (done) {
             var json = {
                 clientId: clientId,
-                productName: "cap",
+                productName: "Hat",
                 brand: "Nike",
                 mfnId: 1,
-                model: "123_cap",
+                model: "123_hat",
                 description: "A black Cap",
                 overview: '111djfjoiqjldktrtryrtyrytrsflkdfjdskdsoidsljdsjdsljdlsjfljsdlfjdlsfdsjfdslfkdsjffld',
                 specifications: '111djfjoiqjldktrtryrtyrytrsflkdfjdskdsoidsljdsjdsljdlsjfljsdlfjdlsfdsjfdslfkdsjff'
 
             };
             setTimeout(function () {
-                productProcessor.addProduct(null, json, function (result) {
+                db.addProduct(json, function (result) {
                     if (result.success) {
                         prodId = result.id;
                         assert(true);
@@ -50,9 +53,9 @@ describe('ProductProcessor', function () {
     });
 
 
-
+    
     describe('#updateProduct()', function () {
-        it('should update Product in processor', function (done) {
+        it('should update Product in mysql db', function (done) {
             var json = {
                 productName: "hat",
                 brand: "Nike Pro",
@@ -65,7 +68,7 @@ describe('ProductProcessor', function () {
                 clientId: clientId
             };
             setTimeout(function () {
-                productProcessor.updateProduct(null, json, function (result) {
+                db.updateProduct(json, function (result) {
                     if (result.success) {
                         assert(true);
                     } else {
@@ -77,13 +80,12 @@ describe('ProductProcessor', function () {
         });
     });
 
-
-
+    
 
     describe('#getProduct()', function () {
-        it('should get Product in processor', function (done) {
+        it('should get Product in mysql db', function (done) {
             setTimeout(function () {
-                productProcessor.getProduct(prodId, clientId, function (result) {
+                db.getProduct(prodId, clientId, function (result) {
                     if (result && result.productName === "hat" && result.model === "123_hat") {
                         assert(true);
                     } else {
@@ -95,11 +97,12 @@ describe('ProductProcessor', function () {
         });
     });
 
-    
+
+
     describe('#deleteProduct()', function () {
         it('should delete Product', function (done) {
             setTimeout(function () {
-                productProcessor.deleteProduct(null, prodId, clientId, function (result) {
+                db.deleteProduct(prodId, clientId, function (result) {
                     if (result.success) {
                         assert(true);
                     } else {

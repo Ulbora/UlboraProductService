@@ -1,38 +1,26 @@
 var assert = require('assert');
-var crud = require("../../../../database/mysql/crud/mysqlCrud");
-var productProcessor = require("../../../../database/mysql/processors/productProcessor");
-var detailsProcessor = require("../../../../database/mysql/processors/detailsProcessor");
-var barCodeProcessor = require("../../../../database/mysql/processors/barCodeProcessor");
-var optionsProcessor = require("../../../../database/mysql/processors/optionsProcessor");
+var db = require("../../database/db");
 var prodId;
-var clientId = 3846;
 var detailId;
-var detailId2;
 var barCodeId;
 var barCodeId2;
-describe('BarCodeProcessor', function () {
-    this.timeout(6000);
+var clientId = "658422133";
+
+
+describe('DB BarCode', function () {
+    this.timeout(20000);
     describe('#connect()', function () {
         it('should connect to db and create pool', function (done) {
-            crud.connect("localhost", "admin", "admin", "ulbora_product_service", 5);
-            crud.testConnection(function (success) {
-                if (success) {
-                    productProcessor.init(crud);
-                    detailsProcessor.init(crud);
-                    barCodeProcessor.init(crud);
-                    optionsProcessor.init(crud);
-                    assert(true);
-                } else {
-                    assert(false);
-                }
+            db.connect("localhost", "admin", "admin", "ulbora_product_service", 5);
+            setTimeout(function () {
                 done();
-            });
+            }, 1000);
         });
     });
 
-
+    
     describe('#addProduct()', function () {
-        it('should add a Product in ProductProcessor', function (done) {
+        it('should add a Product in db', function (done) {
             var json = {
                 clientId: clientId,
                 productName: "Hat",
@@ -45,7 +33,7 @@ describe('BarCodeProcessor', function () {
 
             };
             setTimeout(function () {
-                productProcessor.addProduct(null, json, function (result) {
+                db.addProduct(json, function (result) {
                     if (result.success) {
                         prodId = result.id;
                         assert(true);
@@ -57,10 +45,13 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
-
+    
+    
+    
+    
 
     describe('#addDetail()', function () {
-        it('should add a Detail in Processor', function (done) {
+        it('should add a Detail in db', function (done) {
             var json = {
                 sku: "00100212457",
                 price: 8.56,
@@ -68,7 +59,7 @@ describe('BarCodeProcessor', function () {
                 clientId: clientId
             };
             setTimeout(function () {
-                detailsProcessor.addDetail(null, json, function (result) {
+                db.addDetail(json, function (result) {
                     if (result.success) {
                         detailId = result.id;
                         assert(true);
@@ -82,80 +73,10 @@ describe('BarCodeProcessor', function () {
     });
     
     
-    describe('#addOptions()', function () {
-        it('should add a options in Processor', function (done) {
-            var json = {
-                optionName: "color",
-                optionValue: "blue",
-                productDetailsId: detailId,
-                clientId: clientId
-            };
-            setTimeout(function () {
-                optionsProcessor.addOption(null, json, function (result) {
-                    console.log("options: " + JSON.stringify(result));
-                    if (result.success) {
-                        optionId = result.id;
-                        assert(true);
-                    } else {
-                        assert(false);
-                    }
-                    done();
-                });
-            }, 1000);
-        });
-    });
-
-
     
-    describe('#addDetail()', function () {
-        it('should add a Detail in Processor', function (done) {
-            var json = {
-                sku: "001002124578",
-                price: 10.56,
-                productId: prodId,
-                clientId: clientId
-            };
-            setTimeout(function () {
-                detailsProcessor.addDetail(null, json, function (result) {
-                    if (result.success) {
-                        detailId2 = result.id;
-                        assert(true);
-                    } else {
-                        assert(false);
-                    }
-                    done();
-                });
-            }, 1000);
-        });
-    });
-    
-    
-    describe('#addOptions()', function () {
-        it('should add a options in Processor', function (done) {
-            var json = {
-                optionName: "color",
-                optionValue: "red",
-                productDetailsId: detailId2,
-                clientId: clientId
-            };
-            setTimeout(function () {
-                optionsProcessor.addOption(null, json, function (result) {
-                    console.log("options: " + JSON.stringify(result));
-                    if (result.success) {
-                        optionId = result.id;
-                        assert(true);
-                    } else {
-                        assert(false);
-                    }
-                    done();
-                });
-            }, 1000);
-        });
-    });
-
 
     describe('#addBarCode()', function () {
-        it('should add a bar code in Processor', function (done) {
+        it('should add a bar code in db', function (done) {
             var json = {
                 type: "upc",
                 code: "15555fff555111",
@@ -163,7 +84,7 @@ describe('BarCodeProcessor', function () {
                 clientId: clientId
             };
             setTimeout(function () {
-                barCodeProcessor.addBarCode(null, json, function (result) {
+                db.addBarCode(json, function (result) {
                     console.log("bar code: " + JSON.stringify(result));
                     if (result.success) {
                         barCodeId = result.id;
@@ -177,9 +98,10 @@ describe('BarCodeProcessor', function () {
         });
     });
 
-
+    
+    
     describe('#updateBarCode()', function () {
-        it('should update bar code in Processor', function (done) {
+        it('should update bar code in mysql db', function (done) {
             var json = {
                 type: "upc",
                 code: "455555fgh555",
@@ -187,7 +109,7 @@ describe('BarCodeProcessor', function () {
                 clientId: clientId
             };
             setTimeout(function () {
-                barCodeProcessor.updateBarCode(null, json, function (result) {
+                db.updateBarCode(json, function (result) {
                     if (result.success) {
                         assert(true);
                     } else {
@@ -201,15 +123,15 @@ describe('BarCodeProcessor', function () {
     
     
     describe('#addBarCode()', function () {
-        it('should add a bar code in Processor', function (done) {
+        it('should add a bar code in mysql db', function (done) {
             var json = {
                 type: "upc",
                 code: "15555fff555888",
-                productDetailsId: detailId2,
+                productDetailsId: detailId,
                 clientId: clientId
             };
             setTimeout(function () {
-                barCodeProcessor.addBarCode(null, json, function (result) {
+                db.addBarCode(json, function (result) {
                     console.log("bar code: " + JSON.stringify(result));
                     if (result.success) {
                         barCodeId2 = result.id;
@@ -222,12 +144,12 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
-
-
+    
+    
     describe('#getBarCode()', function () {
-        it('should get a bar code in processor', function (done) {
+        it('should get a bar code in mysql db', function (done) {
             setTimeout(function () {
-                barCodeProcessor.getBarCode(barCodeId, clientId, function (result) {
+                db.getBarCode(barCodeId, clientId, function (result) {
                     console.log("product bar code: " + JSON.stringify(result));
                     if (result.id && result.type === "upc" && result.code === "455555fgh555") {
                         assert(true);
@@ -240,18 +162,13 @@ describe('BarCodeProcessor', function () {
         });
     });
     
-    describe('#addBarCode()', function () {
-        it('should add a bar code in Processor', function (done) {
-            var json = {
-                type: "upc",
-                code: "666GGJ555111",
-                productDetailsId: detailId,
-                clientId: clientId
-            };
+    
+    describe('#getBarCode()', function () {
+        it('should get a bar code in mysql db', function (done) {
             setTimeout(function () {
-                barCodeProcessor.addBarCode(null, json, function (result) {
-                    console.log("bar code: " + JSON.stringify(result));
-                    if (result.success) {                       
+                db.getBarCode(barCodeId2, clientId, function (result) {
+                    console.log("product bar code: " + JSON.stringify(result));
+                    if (result.id && result.type === "upc" && result.code === "15555fff555888") {
                         assert(true);
                     } else {
                         assert(false);
@@ -262,22 +179,18 @@ describe('BarCodeProcessor', function () {
         });
     });
 
-
     
-
-
-
     describe('#getBarCodeListByDetails()', function () {
-        it('should get bar code list by details in processor', function (done) {
+        it('should get bar code list by details in mysql db', function (done) {
             setTimeout(function () {
                 var json = {
                     productDetailsId: detailId,
                     clientId: clientId
                 };
-                barCodeProcessor.getBarCodeListByDetails(json, function (result) {
+                db.getBarCodeListByDetails(json, function (result) {
                     console.log("bar code list: " + JSON.stringify(result));
                     if (result && result.length === 2) {
-                        if (result.length === 2 && result[1].type === "upc" && result[1].code === "666GGJ555111") {
+                        if (result.length === 2 && result[1].type === "upc" && result[1].code === "15555fff555888") {
                             assert(true);
                         } else {
                             assert(false);
@@ -290,17 +203,18 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
-
+    
+    
 
     describe('#getDetailByBarCode()', function () {
-        it('should get details by bar code in processor', function (done) {
+        it('should get details by bar code in mysql db', function (done) {
             setTimeout(function () {
                 var json = {                    
                     clientId: clientId,
                     barCodeType: "upc",
                     barCode: "455555fgh555"
                 };
-                detailsProcessor.getDetailByBarCode(json, function (result) {
+                db.getDetailByBarCode(json, function (result) {
                     console.log("product details id : " + detailId);
                     console.log("product id: " + prodId);
                     console.log("product details by bar code: " + JSON.stringify(result));
@@ -317,36 +231,11 @@ describe('BarCodeProcessor', function () {
     });
     
     
-    
-    describe('#getDetailBySku()', function () {
-        it('should get details by sku in processor', function (done) {
-            setTimeout(function () {
-                var json = {                    
-                    clientId: clientId,
-                    sku: "001002%"
-                };
-                detailsProcessor.getDetailBySku(json, function (result) {
-                    console.log("product details id : " + detailId);
-                    console.log("product id: " + prodId);
-                    console.log("product details by sku " + JSON.stringify(result));
-                    if (result.length > 0 && result[0].productDetailsId && result[0].productDetailsId === detailId && result[0].productId === prodId && result[0].sku === "00100212457") {
-                        assert(true);
-                    } else {
-                        assert(false);
-                    }
-
-                    done();
-                });
-            }, 1000);
-        });
-    });
-
-
 
     describe('#deleteBarCode()', function () {
-        it('should delete bar coe in processor', function (done) {
+        it('should delete bar coe in mysql db', function (done) {
             setTimeout(function () {
-                barCodeProcessor.deleteBarCode(null, barCodeId, clientId, function (result) {
+                db.deleteBarCode(barCodeId, clientId, function (result) {
                     if (result.success) {
                         assert(true);
                     } else {
@@ -358,10 +247,12 @@ describe('BarCodeProcessor', function () {
         });
     });
 
+
+    
     describe('#deleteProduct()', function () {
         it('should delete Product', function (done) {
             setTimeout(function () {
-                productProcessor.deleteProduct(null, prodId, clientId, function (result) {
+                db.deleteProduct(prodId, clientId, function (result) {
                     if (result.success) {
                         assert(true);
                     } else {
@@ -372,7 +263,6 @@ describe('BarCodeProcessor', function () {
             }, 1000);
         });
     });
-    
-    
+
 });
 

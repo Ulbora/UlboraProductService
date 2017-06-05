@@ -88,57 +88,6 @@ exports.getProduct = function (id, clientId, callback) {
 };
 
 
-exports.getCustomerList = function (callback) {
-    crud.getList(productQueries.CUSTOMER_LIST_QUERY, function (result) {
-        if (result.success && result.data.length > 0) {
-            var rtnList = [];
-            for (var cnt = 0; cnt < result.data.length; cnt++) {
-                var rtn = {
-                    firstName: result.data[cnt].first_name,
-                    lastName: result.data[cnt].last_name,
-                    company: result.data[cnt].company,
-                    primaryPhone: result.data[cnt].primary_phone,
-                    secondPhone: result.data[cnt].second_phone,
-                    dateEntered: result.data[cnt].date_entered,
-                    dateModified: result.data[cnt].date_modified,
-                    emailAddress: result.data[cnt].email_address,
-                    clientId: result.data[cnt].client_id
-                };
-                rtnList.push(rtn);
-            }
-            callback(rtnList);
-        } else {
-            callback(rtnList);
-        }
-    });
-};
-
-
-exports.getCustomerListByClientId = function (clientId, callback) {
-    var queryId = [clientId];
-    crud.get(productQueries.CUSTOMER_LIST_BY_CLIENT_QUERY, queryId, function (result) {
-        if (result.success && result.data.length > 0) {
-            var rtnList = [];
-            for (var cnt = 0; cnt < result.data.length; cnt++) {
-                var rtn = {
-                    firstName: result.data[cnt].first_name,
-                    lastName: result.data[cnt].last_name,
-                    company: result.data[cnt].company,
-                    primaryPhone: result.data[cnt].primary_phone,
-                    secondPhone: result.data[cnt].second_phone,
-                    dateEntered: result.data[cnt].date_entered,
-                    dateModified: result.data[cnt].date_modified,
-                    emailAddress: result.data[cnt].email_address,
-                    clientId: result.data[cnt].client_id
-                };
-                rtnList.push(rtn);
-            }
-            callback(rtnList);
-        } else {
-            callback(rtnList);
-        }
-    });
-};
 
 exports.deleteProduct = function (con, id, clientId, callback) {
     var queryId = [id, clientId];

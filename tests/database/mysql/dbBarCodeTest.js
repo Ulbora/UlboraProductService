@@ -4,12 +4,14 @@ var crud = require("../../../database/mysql/crud/mysqlCrud");
 var productProcessor = require("../../../database/mysql/processors/productProcessor");
 var detailsProcessor = require("../../../database/mysql/processors/detailsProcessor");
 var optionsProcessor = require("../../../database/mysql/processors/optionsProcessor");
-var cusId1;
-var cusId2;
+var prodId;
+var detailId;
+var detailId2;
 var clientId = "5584567";
-var addressId;
+var barCodeId;
+var barCodeId2;
 
-describe('mysql DB address', function () {
+describe('mysql DB barcode', function () {
     this.timeout(20000);
     describe('#connect()', function () {
         it('should connect to db and create pool', function (done) {

@@ -158,6 +158,30 @@ describe('DB Details', function () {
             }, 1000);
         });
     });
+    
+    
+    describe('#getDetailBySku()', function () {
+        it('should get details by sku in processor', function (done) {
+            setTimeout(function () {
+                var json = {                    
+                    clientId: clientId,
+                    sku: "001003%"
+                };
+                db.getDetailBySku(json, function (result) {
+                    console.log("product details id : " + detailId);
+                    console.log("product id: " + prodId);
+                    console.log("product details by sku " + JSON.stringify(result));
+                    if (result.length > 0 && result[0].productDetailsId && result[0].productDetailsId === detailId && result[0].productId === prodId && result[0].sku === "00100312457") {                        
+                        assert(true);
+                    } else {
+                        assert(false);
+                    }
+
+                    done();
+                });
+            }, 1000);
+        });
+    });
 
     
     describe('#deleteDetails()', function () {

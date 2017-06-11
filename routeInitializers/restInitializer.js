@@ -21,29 +21,45 @@
 
 
 
-var addressService = require("../services/addressService");
-var customerService = require("../services/customerService");
+var productService = require("../services/productService");
+var detailsService = require("../services/detailsService");
+var optionsService = require("../services/optionsService");
+var barCodeService = require("../services/barCodeService");
 
 exports.init = function(app, db){
     //init
-    addressService.init(db);
-    customerService.init(db);
+    productService.init(db);
+    detailsService.init(db);
+    optionsService.init(db);
+    barCodeService.init(db);
     
-    // role validation
-    app.post('/rs/address/add', addressService.add);
-    app.put('/rs/address/update', addressService.update);
-    app.get('/rs/address/get/:id', addressService.get);
-    app.post('/rs/address/list', addressService.list);  
-    app.delete('/rs/address/delete/:id', addressService.delete);
+    // product validation
+    app.post('/rs/product/add', productService.add);
+    app.put('/rs/product/update', productService.update);
+    app.get('/rs/product/get/:id/:clientId', productService.get);    
+    app.delete('/rs/product/delete/:id/:clientId', productService.delete);
     
-    //user services
-    app.post('/rs/customer/add', customerService.add);      
-    app.put('/rs/customer/update', customerService.update);
-    app.get('/rs/customer/get/:email/:clientId', customerService.get);
-    app.get('/rs/customer/list', customerService.list);  
-    app.post('/rs/customer/list', customerService.listByClientId);  
-    app.delete('/rs/customer/delete/:email/:clientId', customerService.delete);
+    //details services
+    app.post('/rs/details/add', detailsService.add);      
+    app.put('/rs/details/update', detailsService.update);
+    app.get('/rs/details/get/:id/:clientId', detailsService.get);
+    app.post('/rs/details/getByProduct', detailsService.getByProduct);  
+    app.post('/rs/details/getBySku', detailsService.getBySku);  
+    app.post('/rs/details/getByBarCode', detailsService.getByBarCode);  
+    app.delete('/rs/details/delete/:id/:clientId', detailsService.delete);
     
-       
-        
+    //options services
+    app.post('/rs/options/add', optionsService.add);      
+    app.put('/rs/options/update', optionsService.update);
+    app.get('/rs/options/get/:id/:clientId', optionsService.get);
+    app.post('/rs/options/getByDetails', optionsService.getByDetails);  
+    app.post('/rs/options/searchByOption', optionsService.searchByOption);      
+    app.delete('/rs/options/delete/:id/:clientId', optionsService.delete);
+    
+    //barcode services
+    app.post('/rs/barCode/add', barCodeService.add);      
+    app.put('/rs/barCode/update', barCodeService.update);
+    app.get('/rs/barCode/get/:id/:clientId', barCodeService.get);
+    app.post('/rs/barCode/getByDetails', barCodeService.getByDetails);        
+    app.delete('/rs/barCode/delete/:id/:clientId', barCodeService.delete);
 };

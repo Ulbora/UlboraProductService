@@ -64,6 +64,7 @@ Example Response
   "message": ""
 }
 
+```
 
 ## Get Product
 
@@ -103,6 +104,7 @@ Example Response
   },
   "clientId": 403
 }
+
 ```
 
 

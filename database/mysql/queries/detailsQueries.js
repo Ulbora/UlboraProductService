@@ -21,10 +21,14 @@
 
 //client   
 exports.PRODUCT_DETAIL_INSERT_QUERY = "INSERT INTO product_details Set ?";
+
 exports.PRODUCT_UPDATE_QUERY = "UPDATE product_details SET sku = ?, price = ? " +                                
                                "WHERE id = ? and client_id = ? ";
+                       
 exports.PRODUCT_DETAIL_GET_BY_ID_QUERY = "SELECT * FROM product_details WHERE id = ? and client_id = ? ";
+
 exports.PRODUCT_DETAIL_DELETE_QUERY = "DELETE FROM product_details WHERE id = ?  and client_id = ? ";
+
 exports.PRODUCT_DETAIL_LIST_BY_PRODUCT_QUERY = "SELECT * FROM product_details " +
                                                "WHERE product_id = ? " + 
                                                "and client_id = ? ";

@@ -21,13 +21,18 @@
 
 //client   
 exports.OPTIONS_INSERT_QUERY = "INSERT INTO product_options Set ?";
+
 exports.OPTIONS_UPDATE_QUERY = "UPDATE product_options SET option_name = ?, option_value = ? " +                                
                                "WHERE id = ? and client_id = ? ";
+                       
 exports.OPTIONS_GET_BY_ID_QUERY = "SELECT * FROM product_options WHERE id = ? and client_id = ? ";
+
 exports.OPTIONS_DELETE_QUERY = "DELETE FROM product_options WHERE id = ?  and client_id = ? ";
+
 exports.OPTIONS_LIST_BY_DETAILS_QUERY = "SELECT * FROM product_options " +
                                                "WHERE product_details_id = ? " + 
                                                "and client_id = ? ";
+                                       
 exports.OPTIONS_LIST_SEARCH_BY_OPTION_QUERY = "SELECT * FROM product_options " +
                                                "WHERE product_details_id = ? " + 
                                                "and client_id = ? " +

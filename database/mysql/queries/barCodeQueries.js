@@ -21,10 +21,14 @@
 
 //client   
 exports.BAR_CODE_INSERT_QUERY = "INSERT INTO bar_code Set ?";
+
 exports.BAR_CODE_UPDATE_QUERY = "UPDATE bar_code SET type = ?, code = ? " +                                
                                 "WHERE id = ? and client_id = ? ";
+                        
 exports.BAR_CODE_GET_BY_ID_QUERY = "SELECT * FROM bar_code WHERE id = ? and client_id = ? ";
+
 exports.BAR_CODE_DELETE_QUERY = "DELETE FROM bar_code WHERE id = ?  and client_id = ? ";
+
 exports.BAR_CODE_LIST_BY_DETAILS_QUERY = "SELECT * FROM bar_code " +
                                                "WHERE product_details_id = ? " + 
                                                "and client_id = ? ";

@@ -40,6 +40,7 @@ exports.add = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             productManager.addProduct(reqBody, function (result) {
@@ -61,6 +62,7 @@ exports.update = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             productManager.updateProduct(reqBody, function (result) {
@@ -84,7 +86,7 @@ exports.get = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             productManager.getProduct(id, clientId, function (result) {
                 res.send(result);
@@ -104,7 +106,7 @@ exports.delete = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             productManager.deleteProduct(id, clientId, function (result) {
                 res.send(result);

@@ -40,6 +40,7 @@ exports.add = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             detailsManager.addDetail(reqBody, function (result) {
@@ -61,6 +62,7 @@ exports.update = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             detailsManager.updateDetail(reqBody, function (result) {
@@ -84,7 +86,7 @@ exports.get = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             detailsManager.getDetail(id, clientId, function (result) {
                 res.send(result);
@@ -105,6 +107,7 @@ exports.getByProduct = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("getByProduct body: " + bodyJson);
             detailsManager.getDetailListByProduct(reqBody, function (result) {
@@ -127,6 +130,7 @@ exports.getBySku = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             detailsManager.getDetailBySku(reqBody, function (result) {
@@ -149,6 +153,7 @@ exports.getByBarCode = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             detailsManager.getDetailByBarCode(reqBody, function (result) {
@@ -170,7 +175,7 @@ exports.delete = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             detailsManager.deleteDetail(id, clientId, function (result) {
                 res.send(result);

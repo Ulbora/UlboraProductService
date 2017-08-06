@@ -36,30 +36,30 @@ exports.init = function(app, db){
     // product validation
     app.post('/rs/product/add', productService.add);
     app.put('/rs/product/update', productService.update);
-    app.get('/rs/product/get/:id/:clientId', productService.get);    
-    app.delete('/rs/product/delete/:id/:clientId', productService.delete);
+    app.get('/rs/product/get/:id', productService.get);    
+    app.delete('/rs/product/delete/:id', productService.delete);
     
     //details services
     app.post('/rs/details/add', detailsService.add);      
     app.put('/rs/details/update', detailsService.update);
-    app.get('/rs/details/get/:id/:clientId', detailsService.get);
+    app.get('/rs/details/get/:id', detailsService.get);
     app.post('/rs/details/getByProduct', detailsService.getByProduct);  
     app.post('/rs/details/getBySku', detailsService.getBySku);  
     app.post('/rs/details/getByBarCode', detailsService.getByBarCode);  
-    app.delete('/rs/details/delete/:id/:clientId', detailsService.delete);
+    app.delete('/rs/details/delete/:id', detailsService.delete);
     
     //options services
     app.post('/rs/options/add', optionsService.add);      
     app.put('/rs/options/update', optionsService.update);
-    app.get('/rs/options/get/:id/:clientId', optionsService.get);
+    app.get('/rs/options/get/:id', optionsService.get);
     app.post('/rs/options/getByDetails', optionsService.getByDetails);  
     app.post('/rs/options/searchByOption', optionsService.searchByOption);      
-    app.delete('/rs/options/delete/:id/:clientId', optionsService.delete);
+    app.delete('/rs/options/delete/:id', optionsService.delete);
     
     //barcode services
     app.post('/rs/barCode/add', barCodeService.add);      
     app.put('/rs/barCode/update', barCodeService.update);
-    app.get('/rs/barCode/get/:id/:clientId', barCodeService.get);
+    app.get('/rs/barCode/get/:id', barCodeService.get);
     app.post('/rs/barCode/getByDetails', barCodeService.getByDetails);        
-    app.delete('/rs/barCode/delete/:id/:clientId', barCodeService.delete);
+    app.delete('/rs/barCode/delete/:id', barCodeService.delete);
 };

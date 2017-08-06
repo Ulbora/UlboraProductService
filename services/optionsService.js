@@ -40,6 +40,7 @@ exports.add = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             optionsManager.addOption(reqBody, function (result) {
@@ -61,6 +62,7 @@ exports.update = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             optionsManager.updateOption(reqBody, function (result) {
@@ -84,7 +86,7 @@ exports.get = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             optionsManager.getOption(id, clientId, function (result) {
                 res.send(result);
@@ -105,6 +107,7 @@ exports.getByDetails = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             optionsManager.getOptionListByDetails(reqBody, function (result) {
@@ -127,6 +130,7 @@ exports.searchByOption = function (req, res) {
         };
         oauth2.authorize(req, res, me, validationUrl, function () {
             var reqBody = req.body;
+            reqBody.clientId = req.header("clientId");
             var bodyJson = JSON.stringify(reqBody);
             console.log("body: " + bodyJson);
             optionsManager.searchByOptionName(reqBody, function (result) {
@@ -149,7 +153,7 @@ exports.delete = function (req, res) {
     };
     oauth2.authorize(req, res, me, validationUrl, function () {
         var id = req.params.id;
-        var clientId = req.params.clientId;
+        var clientId = req.header("clientId");
         if (id !== null && id !== undefined && clientId !== null && clientId !== undefined) {
             optionsManager.deleteOption(id, clientId, function (result) {
                 res.send(result);
